@@ -47,6 +47,10 @@
   background-color: #f0f0f0;
 }
 
+.inputChat :focus {
+  border: 1px solid red !important;
+}
+
 @media only screen and (max-width: 1300px) {
   .content {
     width: 100%;
