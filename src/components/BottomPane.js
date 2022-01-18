@@ -12,7 +12,7 @@ export default BottomPane
 
 const styles = {
   inputChat: {
-    width: 800,
+    width: '100vw',
     height: 50,
     borderRadius: 50,
     paddingLeft: 20,

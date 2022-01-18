@@ -32,7 +32,11 @@ function LeftPane() {
       </div>
       <div>
         {contacts.map((chatItem, index) => (
-          <div key={index} style={styles.contactRow}>
+          <div
+            key={index}
+            style={styles.contactRow}
+            onClick={() => console.log(chatItem)}
+          >
             <div>
               <img src={chatItem.contactImg} style={styles.contactImg} />
             </div>
