@@ -1,0 +1,66 @@
+.App {
+  background-color: #d8dbd5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.content {
+  width: 70%;
+  height: 100vh;
+  display: flex;
+  background-color: #f1f1f1;
+  min-height: 100vh;
+  position: relative;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.leftPane {
+  width: 30%;
+  height: 100%;
+  background-color: #ffffff;
+}
+
+.mainPane {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 100vh;
+  /* background-color: blue; */
+  justify-content: flex-end;
+  background-image: url('../src/assets/background.png');
+}
+
+.bottomPane {
+  width: 100%;
+  height: 6%;
+  display: flex;
+  justify-content: flex-end;
+  background-color: #f0f0f0;
+}
+
+.inputChat:focus {
+  border: 1px solid red !important;
+  width: 100% !important;
+}
+
+@media only screen and (max-width: 1300px) {
+  .content {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    background-color: #fff;
+    min-height: 100vh;
+    position: relative;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+}
