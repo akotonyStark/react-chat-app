@@ -1,12 +1,11 @@
 import React from "react";
 import me from "../assets/womanwithphone.jpg";
-import profilepic from "../assets/chat_back.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import { loadIncoming } from "../store/actions";
 
 function LeftPane() {
   const onlineUsers = useSelector((state) => state.contacts);
-  console.log(onlineUsers);
+  //console.log(onlineUsers);
 
   const dispatch = useDispatch();
   return (
@@ -31,7 +30,12 @@ function LeftPane() {
             </div>
             <div style={styles.chatSummary}>
               {chatItem.name}
-              <h5 style={{ color: "#009688" }}>{chatItem.messages[0]}</h5>
+              <h5 style={{ color: "#009688" }}>
+                {chatItem.messages[chatItem.messages.length - 1].substring(
+                  0,
+                  30
+                )}
+              </h5>
             </div>
           </div>
         ))}

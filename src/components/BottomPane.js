@@ -1,9 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { sendMessage, loadIncoming } from "../store/actions";
 
 function BottomPane() {
+  const activeChat = useSelector((state) => state.activeChat);
+  const [outgoingMessage, setOutgoingMessage] = useState("");
+
+  React.useEffect(() => {
+    //effect;
+    console.log("state changed");
+    return () => {
+      //cleanup;
+    };
+  }, [activeChat]);
+
+  const handleMessageSend = (e) => {
+    if (e.key === "Enter") {
+      dispatch(sendMessage(outgoingMessage));
+      setOutgoingMessage("");
+    }
+  };
+
+  const dispatch = useDispatch();
   return (
     <div>
-      <input className="inputChat" style={styles.inputChat} type="text" />
+      <input
+        className="inputChat"
+        style={styles.inputChat}
+        type="text"
+        value={outgoingMessage}
+        onChange={(e) => setOutgoingMessage(e.target.value)}
+        onKeyPress={(e) => handleMessageSend(e)}
+        placeholder="your message.."
+      />
     </div>
   );
 }

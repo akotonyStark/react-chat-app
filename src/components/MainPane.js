@@ -1,42 +1,25 @@
 import React from "react";
-import profilepic from "../assets/chat_back.jpg";
 import { useSelector } from "react-redux";
-
-const contacts = [
-  {
-    name: "Jay",
-    contactImg: profilepic,
-    messages: ["Hey babe..", "I miss you"],
-  },
-  {
-    name: "Mr. Stark",
-    contactImg: profilepic,
-    messages: [
-      "hello Stark here..",
-      "genius, billionaire, playboy, philanthropist",
-    ],
-  },
-  {
-    name: "Dr. Strange",
-    contactImg: profilepic,
-    messages: ["it is strange..", "I am the king of Asgard"],
-  },
-];
 
 function MainPane() {
   const activeChat = useSelector((state) => state.activeChat);
   const incomingMessages = activeChat.messages;
+  const outgoingMessages = activeChat.outgoing;
+  //console.log("Out:", outgoingMessages);
+
   return (
     <div style={styles.chatPage}>
-      {incomingMessages.map((data, index) => (
+      {incomingMessages.map((message, index) => (
         <div key={index} style={styles.incoming}>
-          <div style={styles.incomingBubble}>{data}</div>
+          <div style={styles.incomingBubble}>{message}</div>
         </div>
       ))}
 
-      <div style={styles.outgoing}>
-        <div style={styles.outgoingBubble}></div>
-      </div>
+      {outgoingMessages.map((message, index) => (
+        <div key={index} style={styles.outgoing}>
+          <div style={styles.outgoingBubble}>{message}</div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -73,14 +56,14 @@ const styles = {
     display: "flex",
     flexBasis: "auto",
     justifyContent: "flex-start",
-    marginBottom: 20,
+    marginBottom: 10,
     fontSize: 14,
   },
   outgoing: {
     display: "flex",
     flexBasis: "auto",
     justifyContent: "flex-end",
-    marginBottom: 20,
+    marginBottom: 10,
     fontSize: 14,
     color: "#283747",
   },

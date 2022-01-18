@@ -1,7 +1,7 @@
-export const addItem = (chat) => {
+export const sendMessage = (message) => {
   return {
     type: "NEW_CHAT",
-    payload: chat,
+    payload: message,
   };
 };
 
