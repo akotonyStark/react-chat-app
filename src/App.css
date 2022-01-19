@@ -48,6 +48,16 @@
   justify-content: flex-end;
   background-color: #f0f0f0;
 }
+.onlineUsers {
+  color: black;
+  font-size: 16px;
+  font-weight: 500;
+  height: 30px;
+  background-color: #dcf8c6;
+
+  padding-left: 30px;
+  padding-top: 10px;
+}
 
 .inputChat:focus {
   border: 1px solid red !important;

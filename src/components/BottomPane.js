@@ -1,30 +1,37 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { sendMessage } from '../store/actions'
+import React, { useState, useContext } from 'react'
+import { db, firebase, auth } from '../store/firebase.config'
+import { AppContext } from '../App'
 
 function BottomPane() {
-  const activeChat = useSelector((state) => state.activeChat)
   const [outgoingMessage, setOutgoingMessage] = useState('')
+  const [user, chats] = useContext(AppContext)
+  const loggedIn_userId = user.uid
 
-  const dispatch = useDispatch()
-
-  const handleMessageSend = (e) => {
+  const handleMessageSend = async (e) => {
     if (e.key === 'Enter') {
-      dispatch(sendMessage(outgoingMessage))
+      const response = db.collection('messages')
+      const data = await response.add({
+        text: outgoingMessage,
+        uid: loggedIn_userId,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        profilePic: auth.currentUser.photoURL,
+      })
       setOutgoingMessage('')
     }
   }
   return (
     <div>
-      <input
-        className='inputChat'
-        style={styles.inputChat}
-        type='text'
-        value={outgoingMessage}
-        onChange={(e) => setOutgoingMessage(e.target.value)}
-        onKeyPress={(e) => handleMessageSend(e)}
-        placeholder='your message..'
-      />
+      <form onSubmit={(e) => e.preventDefault()}>
+        <input
+          className='inputChat'
+          style={styles.inputChat}
+          type='text'
+          value={outgoingMessage}
+          onChange={(e) => setOutgoingMessage(e.target.value)}
+          onKeyPress={(e) => handleMessageSend(e)}
+          placeholder='your message..'
+        />
+      </form>
     </div>
   )
 }

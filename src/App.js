@@ -11,10 +11,12 @@ export const AppContext = createContext()
 
 function App() {
   const [loggedInUser] = useAuthState(auth)
+  //console.log(loggedInUser)
   const [messages, setMessages] = useState([])
+  const [activeChat, setActiveChat] = useState([])
 
   const fetchMessages = async () => {
-    const response = db.collection('messages')
+    const response = db.collection('messages').orderBy('createdAt')
     const data = await response.get()
     data.docs.forEach((item) => {
       //setMessages([...messages, item.data()])
@@ -29,11 +31,13 @@ function App() {
     return () => {
       //  / cleanup
     }
-  }, [])
+  }, [AppContext])
 
   return (
-    <AppContext.Provider value={[loggedInUser, messages]}>
-      {loggedInUser ? <ChatApp loggedInUser={loggedInUser} /> : <Login />}
+    <AppContext.Provider
+      value={[loggedInUser, messages, setMessages, activeChat, setActiveChat]}
+    >
+      {loggedInUser ? <ChatApp /> : <Login />}
     </AppContext.Provider>
   )
 }

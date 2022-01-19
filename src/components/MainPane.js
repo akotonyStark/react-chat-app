@@ -1,25 +1,28 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useContext } from 'react'
+import { AppContext } from '../App'
 
 function MainPane() {
-  const activeChat = useSelector((state) => state.activeChat)
-  const incomingMessages = activeChat.messages
-  const outgoingMessages = activeChat.outgoing
-  //console.log("Out:", outgoingMessages);
+  const [loggedInUser, messages, setMessages, activeChat, setActiveChat] =
+    useContext(AppContext)
+
+  const loggedIn_userId = loggedInUser.uid
 
   return (
     <div style={styles.chatPage}>
-      {incomingMessages.map((message, index) => (
-        <div key={index} style={styles.incoming}>
-          <div style={styles.incomingBubble}>{message}</div>
-        </div>
-      ))}
-
-      {outgoingMessages.map((message, index) => (
-        <div key={index} style={styles.outgoing}>
-          <div style={styles.outgoingBubble}>{message}</div>
-        </div>
-      ))}
+      {messages.map((message, index) =>
+        message.uid !== loggedIn_userId ? (
+          <div key={index} style={styles.incoming}>
+            <div style={styles.incomingBubble}>
+              <p style={{ color: '#009688' }}>{message.name}</p>
+              {message.text}
+            </div>
+          </div>
+        ) : (
+          <div key={index} style={styles.outgoing}>
+            <div style={styles.outgoingBubble}>{message.text}</div>
+          </div>
+        )
+      )}
     </div>
   )
 }

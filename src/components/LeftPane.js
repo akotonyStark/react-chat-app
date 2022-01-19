@@ -1,13 +1,11 @@
 import React, { useContext } from 'react'
 import me from '../assets/womanwithphone.jpg'
-import { useSelector, useDispatch } from 'react-redux'
-import { loadIncoming } from '../store/actions'
 import { AppContext } from '../App'
 import { auth } from '../store/firebase.config'
 
 function LeftPane() {
-  const onlineUsers = useSelector((state) => state.chats)
-  // const loggedIn_user = useSelector((state) => state.loggedIn_user)
+  const [loggedInUser, messages, setMessages, activeChat, setActiveChat] =
+    useContext(AppContext)
 
   const handleGoogleSignOut = () => {
     if (auth.currentUser) {
@@ -15,44 +13,55 @@ function LeftPane() {
     }
   }
 
-  const dispatch = useDispatch()
+  // const handleActiveChat = (chatItem) => {
+  //   console.log(chatItem)
+  //   setActiveChat([...activeChat, chatItem])
+  // }
 
-  const [user, chats] = useContext(AppContext)
-  console.log(chats)
+  const IDs = messages.map((item) => item.uid)
+  const onlineUsers = [...new Set(IDs)]
+
   return (
     <>
-      <div style={styles.topBar}>
+      <div className='topBar' style={styles.topBar}>
         <img src={me} style={styles.myProfile} alt='' />
-        <div style={styles.username}>{user.displayName}</div>
-        <div style={styles.email}>{user.email}</div>
+        <div style={styles.username}>{loggedInUser.displayName}</div>
+        <div style={styles.email}>{loggedInUser.email}</div>
         <div>
           <button style={styles.signOut} onClick={handleGoogleSignOut}>
             Sign out
           </button>
         </div>
       </div>
-      <div>
-        {chats.map((chatItem, index) => (
-          <div
-            key={index}
-            style={styles.contactRow}
-            onClick={() => dispatch(loadIncoming(chatItem))}
-          >
-            <div>
-              <img
-                src={chatItem.profilePic}
-                style={styles.contactImg}
-                alt='profile_pic'
-              />
+      <div className='onlineUsers'>
+        {' '}
+        {onlineUsers.length - 1} Other users online
+      </div>
+      <div className='users'>
+        {messages.map((chatItem, index) =>
+          chatItem.uid !== loggedInUser.uid ? (
+            <div
+              id={chatItem.uid}
+              key={chatItem.uid}
+              style={styles.contactRow}
+              onClick={() => console.log(chatItem)}
+            >
+              <div>
+                <img
+                  src={chatItem.profilePic}
+                  style={styles.contactImg}
+                  alt='profile_pic'
+                />
+              </div>
+              <div style={styles.chatSummary}>
+                {chatItem.name}
+                <h5 style={{ color: '#009688' }}>
+                  {chatItem.text.substring(0, 20)}
+                </h5>
+              </div>
             </div>
-            <div style={styles.chatSummary}>
-              {chatItem.name}
-              <h5 style={{ color: '#009688' }}>
-                {chatItem.text.substring(0, 20)}
-              </h5>
-            </div>
-          </div>
-        ))}
+          ) : null
+        )}
       </div>
     </>
   )
