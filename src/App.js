@@ -8,6 +8,7 @@ import 'firebase/compat/auth'
 
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { createContext } from 'react'
 
 firebase.initializeApp({
   apiKey: 'AIzaSyC9RsuqOVXfLglItriVhocSxBVzSuJQh_w',
@@ -22,11 +23,19 @@ firebase.initializeApp({
 const auth = firebase.auth()
 const firestore = firebase.firestore()
 
+export const UserContext = createContext()
+
 function App() {
   const [loggedInUser] = useAuthState(auth)
-  console.log(loggedInUser)
+  // console.log(loggedInUser)
 
-  return <StrictMode>{loggedInUser ? <ChatApp /> : <Login />}</StrictMode>
+  return (
+    <StrictMode>
+      <UserContext.Provider value={loggedInUser}>
+        {loggedInUser ? <ChatApp loggedInUser={loggedInUser} /> : <Login />}
+      </UserContext.Provider>
+    </StrictMode>
+  )
 }
 
 export default App

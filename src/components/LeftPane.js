@@ -1,20 +1,38 @@
-import React from "react";
-import me from "../assets/womanwithphone.jpg";
-import { useSelector, useDispatch } from "react-redux";
-import { loadIncoming } from "../store/actions";
+import React, { useContext } from 'react'
+import me from '../assets/womanwithphone.jpg'
+import { useSelector, useDispatch } from 'react-redux'
+import { loadIncoming } from '../store/actions'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/firestore'
+import 'firebase/compat/auth'
+import { UserContext } from '../App'
+const auth = firebase.auth()
 
 function LeftPane() {
-  const onlineUsers = useSelector((state) => state.chats);
-  const loggedIn_user = useSelector((state) => state.loggedIn_user);
-  //console.log(onlineUsers);
+  const onlineUsers = useSelector((state) => state.chats)
+  // const loggedIn_user = useSelector((state) => state.loggedIn_user)
 
-  const dispatch = useDispatch();
+  const handleGoogleSignOut = () => {
+    if (auth.currentUser) {
+      auth.signOut()
+    }
+  }
+
+  const dispatch = useDispatch()
+
+  const user = useContext(UserContext)
+  console.log(user)
   return (
     <>
       <div style={styles.topBar}>
-        <img src={me} style={styles.myProfile} alt="" />
-        <div style={styles.username}>{loggedIn_user.name}</div>
-        <div style={styles.username}>{loggedIn_user.email}</div>
+        <img src={me} style={styles.myProfile} alt='' />
+        <div style={styles.username}>{user.displayName}</div>
+        <div style={styles.email}>{user.email}</div>
+        <div>
+          <button style={styles.signOut} onClick={handleGoogleSignOut}>
+            Sign out
+          </button>
+        </div>
       </div>
       <div>
         {onlineUsers.map((chatItem, index) => (
@@ -27,15 +45,15 @@ function LeftPane() {
               <img
                 src={chatItem.contactImg}
                 style={styles.contactImg}
-                alt="profile_pic"
+                alt='profile_pic'
               />
             </div>
             <div style={styles.chatSummary}>
               {chatItem.name}
-              <h5 style={{ color: "#009688" }}>
+              <h5 style={{ color: '#009688' }}>
                 {chatItem.messages[chatItem.messages.length - 1].substring(
                   0,
-                  30
+                  20
                 )}
               </h5>
             </div>
@@ -43,49 +61,64 @@ function LeftPane() {
         ))}
       </div>
     </>
-  );
+  )
 }
 
-export default LeftPane;
+export default LeftPane
 
 const styles = {
   contactRow: {
     height: 85,
-    borderBottom: "1px solid #ededed",
-    color: "black",
+    borderBottom: '1px solid #ededed',
+    color: 'black',
     fontSize: 18,
-    display: "flex",
+    display: 'flex',
     margin: 10,
   },
   topBar: {
-    height: 210,
-    background: "#f0f0f0",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    height: 280,
+    background: '#f0f0f0',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingTop: 10,
   },
   contactImg: {
     height: 75,
     width: 75,
-    borderRadius: "50%",
+    borderRadius: '50%',
     marginRight: 20,
   },
   chatSummary: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     lineHeight: 0.2,
     paddingTop: 20,
   },
   myProfile: {
     height: 150,
     width: 150,
-    borderRadius: "50%",
+    borderRadius: '50%',
   },
   username: {
     fontSize: 16,
     paddingTop: 5,
-    color: "#283747",
+    color: '#283747',
+    fontWeight: 'bold',
   },
-};
+  email: {
+    fontSize: 14,
+    paddingTop: 5,
+    color: '#283747',
+  },
+  signOut: {
+    width: 100,
+    height: 40,
+    borderRadius: 30,
+    border: 'none',
+    color: 'white',
+    margin: 20,
+    background: 'linear-gradient(hsl(192, 100%, 67%),hsl(280, 87%, 65%))',
+  },
+}

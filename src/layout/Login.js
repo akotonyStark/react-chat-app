@@ -3,8 +3,6 @@ import image from '../assets/womanwithphone.jpg'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 import 'firebase/compat/auth'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 firebase.initializeApp({
   apiKey: 'AIzaSyC9RsuqOVXfLglItriVhocSxBVzSuJQh_w',
@@ -17,7 +15,6 @@ firebase.initializeApp({
 })
 
 const auth = firebase.auth()
-const firestore = firebase.firestore()
 
 function Login() {
   const handleGoogleSignIn = () => {
@@ -54,6 +51,7 @@ const styles = {
     width: '40%',
     height: 50,
     borderRadius: 30,
+    border: 'none',
     color: 'white',
     background: 'linear-gradient(hsl(192, 100%, 67%),hsl(280, 87%, 65%))',
   },

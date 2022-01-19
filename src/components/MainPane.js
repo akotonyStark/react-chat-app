@@ -1,10 +1,10 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React from 'react'
+import { useSelector } from 'react-redux'
 
 function MainPane() {
-  const activeChat = useSelector((state) => state.activeChat);
-  const incomingMessages = activeChat.messages;
-  const outgoingMessages = activeChat.outgoing;
+  const activeChat = useSelector((state) => state.activeChat)
+  const incomingMessages = activeChat.messages
+  const outgoingMessages = activeChat.outgoing
   //console.log("Out:", outgoingMessages);
 
   return (
@@ -21,50 +21,50 @@ function MainPane() {
         </div>
       ))}
     </div>
-  );
+  )
 }
 
-export default MainPane;
+export default MainPane
 
 const styles = {
   incomingBubble: {
     // height: 100,
     //width: 400,
-    border: "0px solid #283747",
+    border: '0px solid #283747',
     borderRadius: 20,
-    background: "#fff",
-    color: "#283747",
+    background: '#fff',
+    color: '#283747',
     padding: 20,
   },
   outgoingBubble: {
     // height: 100,
     //width: 400,
-    border: "0px solid #283747",
+    border: '0px solid #283747',
     borderRadius: 20,
-    background: "#fff",
-    backgroundColor: "#dcf8c6",
+    background: '#fff',
+    backgroundColor: '#dcf8c6',
     padding: 20,
   },
 
   chatPage: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     margin: 30,
   },
   incoming: {
-    display: "flex",
-    flexBasis: "auto",
-    justifyContent: "flex-start",
+    display: 'flex',
+    flexBasis: 'auto',
+    justifyContent: 'flex-start',
     marginBottom: 10,
     fontSize: 14,
   },
   outgoing: {
-    display: "flex",
-    flexBasis: "auto",
-    justifyContent: "flex-end",
+    display: 'flex',
+    flexBasis: 'auto',
+    justifyContent: 'flex-end',
     marginBottom: 10,
     fontSize: 14,
-    color: "#283747",
+    color: '#283747',
   },
-};
+}
