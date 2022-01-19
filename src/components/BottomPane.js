@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sendMessage, loadIncoming } from "../store/actions";
+import { sendMessage } from "../store/actions";
 
 function BottomPane() {
   const activeChat = useSelector((state) => state.activeChat);
@@ -14,14 +14,14 @@ function BottomPane() {
     };
   }, [activeChat]);
 
+  const dispatch = useDispatch();
+
   const handleMessageSend = (e) => {
     if (e.key === "Enter") {
       dispatch(sendMessage(outgoingMessage));
       setOutgoingMessage("");
     }
   };
-
-  const dispatch = useDispatch();
   return (
     <div>
       <input

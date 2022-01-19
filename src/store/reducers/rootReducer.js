@@ -1,6 +1,6 @@
 import profilepic from "../../assets/chat_back.jpg";
 
-let contacts = [
+let chats = [
   {
     name: "Jay",
     contactImg: profilepic,
@@ -31,7 +31,33 @@ let activeChat = {
   outgoing: [],
 };
 
-const init = { contacts, activeChat };
+let loggedIn_user = { name: "Augustine", email: "alarbiampofo@gmail.com" };
+
+let messages = [
+  {
+    sender: "Jay",
+    content: "I am hungry",
+  },
+  {
+    sender: "Augustine",
+    content: "What do you wanna eat",
+  },
+
+  {
+    sender: "Jay",
+    content: "I dunno yet",
+  },
+  {
+    sender: "Jay",
+    content: "I am thinking something spicy",
+  },
+  {
+    sender: "Augustine",
+    content: "That doesn't sound like a bad idea",
+  },
+];
+
+const init = { chats, activeChat, messages, loggedIn_user };
 
 const rootReducer = (state = init, action) => {
   switch (action.type) {
@@ -43,7 +69,7 @@ const rootReducer = (state = init, action) => {
 
     case "LOAD_INCOMING":
       console.log("loading messages..");
-      activeChat = contacts.find(
+      activeChat = chats.find(
         (contact) => contact.name === action.payload.name
       );
       return { ...state, activeChat };

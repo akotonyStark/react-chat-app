@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { loadIncoming } from "../store/actions";
 
 function LeftPane() {
-  const onlineUsers = useSelector((state) => state.contacts);
+  const onlineUsers = useSelector((state) => state.chats);
+  const loggedIn_user = useSelector((state) => state.loggedIn_user);
   //console.log(onlineUsers);
 
   const dispatch = useDispatch();
@@ -12,7 +13,8 @@ function LeftPane() {
     <>
       <div style={styles.topBar}>
         <img src={me} style={styles.myProfile} alt="" />
-        <div style={styles.username}>alarbiampofo@gmail.com</div>
+        <div style={styles.username}>{loggedIn_user.name}</div>
+        <div style={styles.username}>{loggedIn_user.email}</div>
       </div>
       <div>
         {onlineUsers.map((chatItem, index) => (
@@ -56,7 +58,7 @@ const styles = {
     margin: 10,
   },
   topBar: {
-    height: 200,
+    height: 210,
     background: "#f0f0f0",
     display: "flex",
     flexDirection: "column",
@@ -65,8 +67,8 @@ const styles = {
     paddingTop: 10,
   },
   contactImg: {
-    height: 80,
-    width: 80,
+    height: 75,
+    width: 75,
     borderRadius: "50%",
     marginRight: 20,
   },
@@ -82,8 +84,8 @@ const styles = {
     borderRadius: "50%",
   },
   username: {
-    fontSize: 18,
-    paddingTop: 10,
+    fontSize: 16,
+    paddingTop: 5,
     color: "#283747",
   },
 };
