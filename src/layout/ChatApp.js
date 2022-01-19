@@ -1,24 +1,24 @@
-import React from 'react'
-import BottomPane from '../components/BottomPane'
-import LeftPane from '../components/LeftPane'
-import MainPane from '../components/MainPane'
+import React from "react";
+import BottomPane from "../components/BottomPane";
+import LeftPane from "../components/LeftPane";
+import MainPane from "../components/MainPane";
 
 function ChatApp() {
   return (
-    <div className='App'>
-      <div className='content'>
-        <div className='leftPane'>
+    <div className="App">
+      <div className="content">
+        <div className="leftPane">
           <LeftPane />
         </div>
-        <div className='mainPane'>
+        <div className="mainPane">
           <MainPane />
-          <div className='bottomPane'>
+          <div className="bottomPane">
             <BottomPane />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ChatApp
+export default ChatApp;
