@@ -2,11 +2,8 @@ import React, { useContext } from 'react'
 import me from '../assets/womanwithphone.jpg'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadIncoming } from '../store/actions'
-import firebase from 'firebase/compat/app'
-import 'firebase/compat/firestore'
-import 'firebase/compat/auth'
-import { UserContext } from '../App'
-const auth = firebase.auth()
+import { AppContext } from '../App'
+import { auth } from '../store/firebase.config'
 
 function LeftPane() {
   const onlineUsers = useSelector((state) => state.chats)
@@ -20,8 +17,8 @@ function LeftPane() {
 
   const dispatch = useDispatch()
 
-  const user = useContext(UserContext)
-  console.log(user)
+  const [user, chats] = useContext(AppContext)
+  console.log(chats)
   return (
     <>
       <div style={styles.topBar}>
@@ -35,7 +32,7 @@ function LeftPane() {
         </div>
       </div>
       <div>
-        {onlineUsers.map((chatItem, index) => (
+        {chats.map((chatItem, index) => (
           <div
             key={index}
             style={styles.contactRow}
@@ -43,7 +40,7 @@ function LeftPane() {
           >
             <div>
               <img
-                src={chatItem.contactImg}
+                src={chatItem.profilePic}
                 style={styles.contactImg}
                 alt='profile_pic'
               />
@@ -51,10 +48,7 @@ function LeftPane() {
             <div style={styles.chatSummary}>
               {chatItem.name}
               <h5 style={{ color: '#009688' }}>
-                {chatItem.messages[chatItem.messages.length - 1].substring(
-                  0,
-                  20
-                )}
+                {chatItem.text.substring(0, 20)}
               </h5>
             </div>
           </div>

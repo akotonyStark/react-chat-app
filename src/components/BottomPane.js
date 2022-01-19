@@ -6,14 +6,6 @@ function BottomPane() {
   const activeChat = useSelector((state) => state.activeChat)
   const [outgoingMessage, setOutgoingMessage] = useState('')
 
-  React.useEffect(() => {
-    //effect;
-    console.log('state changed')
-    return () => {
-      //cleanup;
-    }
-  }, [activeChat])
-
   const dispatch = useDispatch()
 
   const handleMessageSend = (e) => {

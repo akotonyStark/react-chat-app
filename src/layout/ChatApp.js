@@ -3,7 +3,7 @@ import BottomPane from '../components/BottomPane'
 import LeftPane from '../components/LeftPane'
 import MainPane from '../components/MainPane'
 
-function ChatApp({ loggedInUser }) {
+function ChatApp() {
   return (
     <div className='App'>
       <div className='content'>
