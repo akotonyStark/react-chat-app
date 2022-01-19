@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import me from '../assets/womanwithphone.jpg'
+import avatar from '../assets/chat_back.jpg'
 import { AppContext } from '../App'
 import { auth } from '../store/firebase.config'
 
@@ -12,6 +13,8 @@ function LeftPane() {
       auth.signOut()
     }
   }
+
+  console.log(messages)
 
   // const handleActiveChat = (chatItem) => {
   //   console.log(chatItem)
@@ -34,7 +37,6 @@ function LeftPane() {
         </div>
       </div>
       <div className='onlineUsers'>
-        {' '}
         {onlineUsers.length - 1} Other users online
       </div>
       <div className='users'>
@@ -47,11 +49,19 @@ function LeftPane() {
               onClick={() => console.log(chatItem)}
             >
               <div>
-                <img
-                  src={chatItem.profilePic}
-                  style={styles.contactImg}
-                  alt='profile_pic'
-                />
+                {chatItem.profilePic ? (
+                  <img
+                    src={chatItem.profilePic}
+                    style={styles.contactImg}
+                    alt='profile_pic'
+                  />
+                ) : (
+                  <img
+                    src={avatar}
+                    style={styles.contactImg}
+                    alt='profile_pic'
+                  />
+                )}
               </div>
               <div style={styles.chatSummary}>
                 {chatItem.name}

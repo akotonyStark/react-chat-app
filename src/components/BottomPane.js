@@ -4,19 +4,22 @@ import { AppContext } from '../App'
 
 function BottomPane() {
   const [outgoingMessage, setOutgoingMessage] = useState('')
-  const [user, chats] = useContext(AppContext)
-  const loggedIn_userId = user.uid
+  const [loggedInUser, messages, setMessages, activeChat, setActiveChat] =
+    useContext(AppContext)
 
   const handleMessageSend = async (e) => {
     if (e.key === 'Enter') {
       const response = db.collection('messages')
-      const data = await response.add({
+      const newChatMessage = {
         text: outgoingMessage,
-        uid: loggedIn_userId,
+        uid: loggedInUser.uid,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         profilePic: auth.currentUser.photoURL,
-      })
+        name: auth.currentUser.displayName,
+      }
+      const data = await response.add(newChatMessage)
       setOutgoingMessage('')
+      setMessages([...messages, newChatMessage])
     }
   }
   return (
