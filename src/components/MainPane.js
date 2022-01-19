@@ -1,84 +1,70 @@
-import React from 'react'
-import profilepic from '../assets/chat_back.jpg'
-
-const contacts = [
-  {
-    name: 'Jay',
-    contactImg: profilepic,
-    messages: ['Hey babe..', 'I miss you'],
-  },
-  {
-    name: 'Mr. Stark',
-    contactImg: profilepic,
-    messages: [
-      'hello Stark here..',
-      'genius, billionaire, playboy, philanthropist',
-    ],
-  },
-  {
-    name: 'Dr. Strange',
-    contactImg: profilepic,
-    messages: ['it is strange..', 'I am the king of Asgard'],
-  },
-]
+import React from "react";
+import { useSelector } from "react-redux";
 
 function MainPane() {
+  const activeChat = useSelector((state) => state.activeChat);
+  const incomingMessages = activeChat.messages;
+  const outgoingMessages = activeChat.outgoing;
+  //console.log("Out:", outgoingMessages);
+
   return (
     <div style={styles.chatPage}>
-      {contacts.map((data, index) => (
+      {incomingMessages.map((message, index) => (
         <div key={index} style={styles.incoming}>
-          <div style={styles.incomingBubble}>{data.messages}</div>
+          <div style={styles.incomingBubble}>{message}</div>
         </div>
       ))}
 
-      <div style={styles.outgoing}>
-        <div style={styles.outgoingBubble}>Outgoing</div>
-      </div>
+      {outgoingMessages.map((message, index) => (
+        <div key={index} style={styles.outgoing}>
+          <div style={styles.outgoingBubble}>{message}</div>
+        </div>
+      ))}
     </div>
-  )
+  );
 }
 
-export default MainPane
+export default MainPane;
 
 const styles = {
   incomingBubble: {
     // height: 100,
-    width: 400,
-    border: '0px solid #283747',
+    //width: 400,
+    border: "0px solid #283747",
     borderRadius: 20,
-    background: '#fff',
-    color: '#283747',
+    background: "#fff",
+    color: "#283747",
     padding: 20,
   },
   outgoingBubble: {
     // height: 100,
-    width: 400,
-    border: '0px solid #283747',
+    //width: 400,
+    border: "0px solid #283747",
     borderRadius: 20,
-    background: '#fff',
-    backgroundColor: '#dcf8c6',
+    background: "#fff",
+    backgroundColor: "#dcf8c6",
     padding: 20,
   },
 
   chatPage: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
     margin: 30,
   },
   incoming: {
-    display: 'flex',
-    flexBasis: 'auto',
-    justifyContent: 'flex-start',
-    marginBottom: 20,
+    display: "flex",
+    flexBasis: "auto",
+    justifyContent: "flex-start",
+    marginBottom: 10,
     fontSize: 14,
   },
   outgoing: {
-    display: 'flex',
-    flexBasis: 'auto',
-    justifyContent: 'flex-end',
-    marginBottom: 20,
+    display: "flex",
+    flexBasis: "auto",
+    justifyContent: "flex-end",
+    marginBottom: 10,
     fontSize: 14,
-    color: '#283747',
+    color: "#283747",
   },
-}
+};

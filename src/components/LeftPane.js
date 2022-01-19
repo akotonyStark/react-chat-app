@@ -1,97 +1,91 @@
-import React from 'react'
-import profilepic from '../assets/chat_back.jpg'
-import me from '../assets/womanwithphone.jpg'
-
-const contacts = [
-  {
-    name: 'Jay',
-    contactImg: profilepic,
-    messages: ['Hey babe..', 'I miss you'],
-  },
-  {
-    name: 'Mr. Stark',
-    contactImg: profilepic,
-    messages: [
-      'hello Stark here..',
-      'genius, billionaire, playboy, philanthropist',
-    ],
-  },
-  {
-    name: 'Dr. Strange',
-    contactImg: profilepic,
-    messages: ['it is strange..', 'I am the king of Asgard'],
-  },
-]
+import React from "react";
+import me from "../assets/womanwithphone.jpg";
+import { useSelector, useDispatch } from "react-redux";
+import { loadIncoming } from "../store/actions";
 
 function LeftPane() {
+  const onlineUsers = useSelector((state) => state.chats);
+  const loggedIn_user = useSelector((state) => state.loggedIn_user);
+  //console.log(onlineUsers);
+
+  const dispatch = useDispatch();
   return (
     <>
       <div style={styles.topBar}>
-        <img src={me} style={styles.myProfile} />
-        <div style={styles.username}>alarbiampofo@gmail.com</div>
+        <img src={me} style={styles.myProfile} alt="" />
+        <div style={styles.username}>{loggedIn_user.name}</div>
+        <div style={styles.username}>{loggedIn_user.email}</div>
       </div>
       <div>
-        {contacts.map((chatItem, index) => (
+        {onlineUsers.map((chatItem, index) => (
           <div
             key={index}
             style={styles.contactRow}
-            onClick={() => console.log(chatItem)}
+            onClick={() => dispatch(loadIncoming(chatItem))}
           >
             <div>
-              <img src={chatItem.contactImg} style={styles.contactImg} />
+              <img
+                src={chatItem.contactImg}
+                style={styles.contactImg}
+                alt="profile_pic"
+              />
             </div>
             <div style={styles.chatSummary}>
               {chatItem.name}
-              <h5 style={{ color: '#009688' }}>{chatItem.messages[0]}</h5>
+              <h5 style={{ color: "#009688" }}>
+                {chatItem.messages[chatItem.messages.length - 1].substring(
+                  0,
+                  30
+                )}
+              </h5>
             </div>
           </div>
         ))}
       </div>
     </>
-  )
+  );
 }
 
-export default LeftPane
+export default LeftPane;
 
 const styles = {
   contactRow: {
     height: 85,
-    borderBottom: '1px solid #ededed',
-    color: 'black',
+    borderBottom: "1px solid #ededed",
+    color: "black",
     fontSize: 18,
-    display: 'flex',
+    display: "flex",
     margin: 10,
   },
   topBar: {
-    height: 200,
-    background: '#f0f0f0',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: 210,
+    background: "#f0f0f0",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     paddingTop: 10,
   },
   contactImg: {
-    height: 80,
-    width: 80,
-    borderRadius: '50%',
+    height: 75,
+    width: 75,
+    borderRadius: "50%",
     marginRight: 20,
   },
   chatSummary: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     lineHeight: 0.2,
     paddingTop: 20,
   },
   myProfile: {
     height: 150,
     width: 150,
-    borderRadius: '50%',
+    borderRadius: "50%",
   },
   username: {
-    fontSize: 18,
-    color: 'black',
-    paddingTop: 10,
-    color: '#283747',
+    fontSize: 16,
+    paddingTop: 5,
+    color: "#283747",
   },
-}
+};
