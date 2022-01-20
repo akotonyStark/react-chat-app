@@ -39,11 +39,11 @@
   position: relative;
   width: 70%;
   height: 100vh;
-  background-image: url("../src/assets/background.png");
+  background-image: url('../src/assets/background.png');
 }
 
 .inputChat :focus {
-  border: "1px solid red" !important;
+  border: '1px solid red' !important;
 }
 .bottomPane {
   width: 100%;
@@ -64,6 +64,19 @@
 @media only screen and (max-width: 1300px) {
   .content {
     width: 100%;
+    height: 100vh;
+    display: flex;
+    background-color: #fff;
+    min-height: 100vh;
+    position: relative;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+}
+
+@media only screen and (min-width: 1366px) {
+  .content {
+    width: 70%;
     height: 100vh;
     display: flex;
     background-color: #fff;

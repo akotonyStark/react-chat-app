@@ -1,77 +1,78 @@
-import React, { useState, useContext } from "react";
-import { db, firebase, auth } from "../store/firebase.config";
-import { AppContext } from "../App";
+import React, { useState, useContext } from 'react'
+import { db, firebase, auth } from '../store/firebase.config'
+import { AppContext } from '../App'
 
 function BottomPane() {
-  const [outgoingMessage, setOutgoingMessage] = useState("");
+  const [outgoingMessage, setOutgoingMessage] = useState('')
   const [loggedInUser, users, setUsers, activeChat, setActiveChat] =
-    useContext(AppContext);
+    useContext(AppContext)
 
   const handleMessageSend = async (e) => {
-    if (e.key === "Enter") {
-      const response = db.collection("users");
-      const data = await response.get();
+    if (e.key === 'Enter') {
+      const response = db.collection('users')
+      const data = await response.get()
       //find user whose id is equal to the current chat
-      let canSend = false;
+      let canSend = false
       data.docs.forEach((user) => {
         if (user.data().uid === activeChat[0].uid) {
           // console.log("Active ID", activeChat[0].uid);
-          canSend = true;
+          canSend = true
 
           const obj = {
             text: outgoingMessage,
             sentTo: activeChat[0].uid,
             sentFrom: loggedInUser.uid,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          };
+            createdAt: new Date().toDateString(),
+          }
 
           if (canSend) {
             //const data = await response.add(obj);
             //console.log("message to send:", obj);
-            setOutgoingMessage("");
+            setOutgoingMessage('')
             //setMessages([...users, obj]);
-            db.collection("users")
+            db.collection('users')
               .doc(user.id)
               .update({
                 // email: activeChat[0].email,
                 // lastSeen: activeChat[0].lastSeen,
-                messages: [obj],
+                messages: [...activeChat[0].messages, obj],
                 // name: activeChat[0].name,
                 // profilePic: activeChat[0].profilePic,
                 // uid: activeChat[0].uid,
-              });
+              })
           } else {
-            console.log("create new message thread");
+            console.log('create new message thread')
           }
         }
-      });
+      })
     }
-  };
+  }
 
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault()}>
         <input
-          className="inputChat"
+          className='inputChat'
           style={styles.inputChat}
-          type="text"
+          type='text'
           value={outgoingMessage}
           onChange={(e) => setOutgoingMessage(e.target.value)}
           onKeyPress={(e) => handleMessageSend(e)}
-          placeholder="your message.."
+          placeholder='your message..'
         />
       </form>
     </div>
-  );
+  )
 }
 
-export default BottomPane;
+export default BottomPane
 
 const styles = {
   inputChat: {
-    width: "99%",
-    height: 40,
+    width: '99%',
+    height: 50,
+    paddingLeft: 5,
     // borderRadius: 50,
-    border: "1px solid #f1f1f1",
+    border: '1px solid #f1f1f1',
   },
-};
+}
