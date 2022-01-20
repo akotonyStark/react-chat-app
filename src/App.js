@@ -30,7 +30,7 @@ function App() {
     return () => {
       //  / cleanup
     }
-  }, [AppContext])
+  }, [])
 
   return (
     <AppContext.Provider

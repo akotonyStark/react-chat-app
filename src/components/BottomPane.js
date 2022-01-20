@@ -1,13 +1,17 @@
-import React, { useState, useContext } from 'react'
-import { db, firebase, auth } from '../store/firebase.config'
+import React, { useState, useEffect, useContext } from 'react'
+import { db } from '../store/firebase.config'
 import { AppContext } from '../App'
 
 function BottomPane() {
   const [outgoingMessage, setOutgoingMessage] = useState('')
-  const [loggedInUser, users, setUsers, activeChat, setActiveChat] =
-    useContext(AppContext)
+  const [loggedInUser, , , activeChat, setActiveChat] = useContext(AppContext)
+
+  useEffect(() => {
+    console.log('state changed')
+  }, [activeChat])
 
   const handleMessageSend = async (e) => {
+    let obj = {}
     if (e.key === 'Enter') {
       const response = db.collection('users')
       const data = await response.get()
@@ -18,7 +22,7 @@ function BottomPane() {
           // console.log("Active ID", activeChat[0].uid);
           canSend = true
 
-          const obj = {
+          obj = {
             text: outgoingMessage,
             sentTo: activeChat[0].uid,
             sentFrom: loggedInUser.uid,
@@ -26,23 +30,20 @@ function BottomPane() {
           }
 
           if (canSend) {
-            //const data = await response.add(obj);
-            //console.log("message to send:", obj);
             setOutgoingMessage('')
-            //setMessages([...users, obj]);
+
             db.collection('users')
               .doc(user.id)
               .update({
-                // email: activeChat[0].email,
-                // lastSeen: activeChat[0].lastSeen,
                 messages: [...activeChat[0].messages, obj],
-                // name: activeChat[0].name,
-                // profilePic: activeChat[0].profilePic,
-                // uid: activeChat[0].uid,
               })
           } else {
             console.log('create new message thread')
           }
+          const updatedChat = [...activeChat[0].messages, obj]
+          const [chat] = activeChat
+          chat.messages = updatedChat
+          setActiveChat([chat])
         }
       })
     }
