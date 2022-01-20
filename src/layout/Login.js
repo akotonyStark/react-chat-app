@@ -11,7 +11,11 @@ function Login() {
   return (
     <div style={styles.main}>
       <div style={styles.container}>
-        <button style={styles.signIn} onClick={handleGoogleSignIn}>
+        <button
+          className="auth"
+          style={styles.signIn}
+          onClick={handleGoogleSignIn}
+        >
           Login with Google
         </button>
       </div>
