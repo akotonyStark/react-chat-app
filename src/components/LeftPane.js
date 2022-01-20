@@ -38,8 +38,8 @@ function LeftPane() {
   };
 
   const handleCurrentChat = (currentThread) => {
-    console.log(currentThread);
-    setActiveChat(currentThread);
+    //console.log(currentThread);
+    setActiveChat([currentThread]);
   };
 
   useEffect(() => {
@@ -69,7 +69,7 @@ function LeftPane() {
               id={user.uid}
               key={index}
               style={styles.contactRow}
-              onClick={() => handleCurrentChat(user.messages)}
+              onClick={() => handleCurrentChat(user)}
             >
               <div>
                 {user.profilePic ? (

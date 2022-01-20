@@ -3,10 +3,8 @@ import "./App.css";
 import Login from "./layout/Login";
 import ChatApp from "./layout/ChatApp";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 import { createContext } from "react";
 import { auth, db } from "./store/firebase.config";
-import { getDatabase, ref } from "firebase/database";
 
 export const AppContext = createContext();
 

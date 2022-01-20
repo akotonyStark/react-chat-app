@@ -9,18 +9,22 @@ function MainPane() {
   console.log("Active chat:", activeChat);
 
   return (
-    <div style={styles.chatPage}>
-      {activeChat.map(
-        (message, index) =>
-          message.uid !== loggedInUser.uid &&
-          message.sentTo === loggedInUser.uid && (
-            <div key={index} style={styles.incoming}>
-              <div style={styles.incomingBubble}>{message.text}</div>
-            </div>
-          )
-      )}
+    <>
+      <div style={styles.chatBuddy}>
+        {activeChat.length > 0 ? activeChat[0].name : ""}
+      </div>
+      <div style={styles.chatPage}>
+        {activeChat.map(
+          (message, index) =>
+            message.uid !== loggedInUser.uid &&
+            message.sentTo === loggedInUser.uid && (
+              <div key={index} style={styles.incoming}>
+                <div style={styles.incomingBubble}>{message.text}</div>
+              </div>
+            )
+        )}
 
-      {/* {messages.map(
+        {/* {messages.map(
         (message, index) =>
           message.uid === loggedInUser.uid &&
           message.sentTo === activeChat.uid && (
@@ -29,16 +33,22 @@ function MainPane() {
             </div>
           )
       )} */}
-    </div>
+      </div>
+    </>
   );
 }
 
 export default MainPane;
 
 const styles = {
+  chatBuddy: {
+    height: 40,
+    backgroundColor: "#283747",
+    boxShadow: "2px #fff",
+    fontSize: 18,
+    paddingLeft: 20,
+  },
   incomingBubble: {
-    // height: 100,
-    //width: 400,
     border: "0px solid #283747",
     borderRadius: 20,
     background: "#fff",
@@ -46,8 +56,6 @@ const styles = {
     padding: 20,
   },
   outgoingBubble: {
-    // height: 100,
-    //width: 400,
     border: "0px solid #283747",
     borderRadius: 20,
     background: "#fff",
