@@ -4,27 +4,33 @@ import { AppContext } from "../App";
 
 function BottomPane() {
   const [outgoingMessage, setOutgoingMessage] = useState("");
-  const [loggedInUser, messages, setMessages, activeChat, setActiveChat] =
+  const [loggedInUser, users, setUsers, activeChat, setActiveChat] =
     useContext(AppContext);
 
   const [friend] = activeChat;
 
   const handleMessageSend = async (e) => {
-    if (e.key === "Enter") {
-      const response = db.collection("messages");
-      const newChatMessage = {
-        text: outgoingMessage,
-        uid: loggedInUser.uid,
-        sentTo: friend.uid,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        profilePic: auth.currentUser.photoURL,
-        name: auth.currentUser.displayName,
-      };
-      const data = await response.add(newChatMessage);
-      setOutgoingMessage("");
-      setMessages([...messages, newChatMessage]);
-    }
+    // if (e.key === "Enter") {
+    //   const response = db.collection("users");
+    //   const obj = {
+    //     email: loggedInUser.email,
+    //     lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+    //     messages: [
+    //       {
+    //         text: outgoingMessage,
+    //         sentTo: friend.uid,
+    //         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    //       },
+    //     ],
+    //     name: auth.currentUser.displayName,
+    //     profilePic: auth.currentUser.photoURL,
+    //     uid: loggedInUser.uid,
+    //   };
+    //   const data = await response.add(obj);
+    setOutgoingMessage("");
+    //setMessages([...users, obj]);
   };
+
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault()}>

@@ -5,22 +5,20 @@ function MainPane() {
   const [loggedInUser, users, setUsers, activeChat, setActiveChat] =
     useContext(AppContext);
 
-  //console.log("Users:", users);
-  //console.log("Active chat:", activeChat);
+  console.log("Users:", users);
+  console.log("Active chat:", activeChat);
 
   return (
     <div style={styles.chatPage}>
-      {/* {activeChat.map(
+      {activeChat.map(
         (message, index) =>
-          message.uid !== loggedInUser.uid && (
+          message.uid !== loggedInUser.uid &&
+          message.sentTo === loggedInUser.uid && (
             <div key={index} style={styles.incoming}>
-              <div style={styles.incomingBubble}>
-                <p style={{ color: "#009688" }}>{message.name}</p>
-                {message.text}
-              </div>
+              <div style={styles.incomingBubble}>{message.text}</div>
             </div>
           )
-      )} */}
+      )}
 
       {/* {messages.map(
         (message, index) =>
