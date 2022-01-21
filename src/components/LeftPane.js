@@ -27,7 +27,14 @@ function LeftPane({ setShowMessageBox, setShowBlockButton }) {
       const obj = {
         email: loggedInUser.email,
         lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
-        messages: [],
+        messages: [
+          {
+            text: "",
+            sentTo: "",
+            sentFrom: "",
+            createdAt: "",
+          },
+        ],
         name: auth.currentUser.displayName,
         profilePic: auth.currentUser.photoURL,
         uid: loggedInUser.uid,

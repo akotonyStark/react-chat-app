@@ -1,36 +1,47 @@
-import React, { useState } from 'react'
-import './App.css'
-import Login from './layout/Login'
-import ChatApp from './layout/ChatApp'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { createContext } from 'react'
-import { auth, db } from './store/firebase.config'
+import React, { useState } from "react";
+import "./App.css";
+import Login from "./layout/Login";
+import ChatApp from "./layout/ChatApp";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { createContext } from "react";
+import { auth, db } from "./store/firebase.config";
 
-export const AppContext = createContext()
+export const AppContext = createContext();
 
 function App() {
-  const [loggedInUser] = useAuthState(auth)
+  const [loggedInUser] = useAuthState(auth);
   //console.log(loggedInUser);
-  const [users, setUsers] = useState([])
-  const [activeChat, setActiveChat] = useState([{ messages: [] }])
+  const [users, setUsers] = useState([]);
+  const [activeChat, setActiveChat] = useState([
+    {
+      messages: [
+        {
+          text: "",
+          sentTo: "",
+          sentFrom: "",
+          createdAt: "",
+        },
+      ],
+    },
+  ]);
 
   const fetchData = async () => {
-    const response = db.collection('users').orderBy('lastSeen')
-    const data = await response.get()
+    const response = db.collection("users").orderBy("lastSeen");
+    const data = await response.get();
     data.docs.forEach((item) => {
       //setMessages([...messages, item.data()])
-      users.push(item.data())
-      setUsers([...users])
-    })
-  }
+      users.push(item.data());
+      setUsers([...users]);
+    });
+  };
 
   React.useEffect(() => {
-    fetchData()
+    fetchData();
 
     return () => {
       //  / cleanup
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <AppContext.Provider
@@ -38,7 +49,7 @@ function App() {
     >
       {loggedInUser ? <ChatApp /> : <Login />}
     </AppContext.Provider>
-  )
+  );
 }
 
-export default App
+export default App;

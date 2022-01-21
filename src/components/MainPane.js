@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../App";
 import { db } from "../store/firebase.config";
 
 function MainPane({ showBlockButton, setShowMessageBox }) {
-  const [loggedInUser, , , activeChat] = useContext(AppContext);
+  const [loggedInUser, , , activeChat, setActiveChat] = useContext(AppContext);
 
   const handleBlock = (activeChat) => {
     // alert(`Are you sure you wanna block  ${activeChat[0].name} ?`);
@@ -92,8 +92,7 @@ const styles = {
     backgroundColor: "#fff",
     color: "#283747",
     padding: 20,
-    // position: 'absolute',
-    // bottom: 120,
+    maxWidth: "55%",
   },
   outgoingBubble: {
     border: "0px solid #283747",
@@ -101,8 +100,7 @@ const styles = {
     backgroundColor: "#dcf8c6",
     color: "#080808",
     padding: 20,
-    // position: 'absolute',
-    // bottom: 120,
+    maxWidth: "55%",
   },
 
   chatPage: {
@@ -112,7 +110,7 @@ const styles = {
     margin: 30,
     position: "absolute",
     bottom: 70,
-    maxHeight: 900,
+    maxHeight: "75%",
     overflow: "auto",
   },
   incoming: {

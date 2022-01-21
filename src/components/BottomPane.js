@@ -1,14 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
 import { db } from "../store/firebase.config";
+import { doc } from "firebase/firestore";
 import { AppContext } from "../App";
 
 function BottomPane() {
   const [outgoingMessage, setOutgoingMessage] = useState("");
   const [loggedInUser, , , activeChat, setActiveChat] = useContext(AppContext);
-
+  const [count, setCount] = useState(0);
   useEffect(() => {
-    console.log("state changed");
-  }, [activeChat]);
+    db.collection("users").onSnapshot(
+      doc(db, "users", loggedInUser.uid),
+      (doc) => {
+        doc._delegate.docs.forEach((element) => {
+          if (element.id === loggedInUser.uid) {
+            setActiveChat(activeChat);
+            console.log("firestore updated");
+            //setCount((count) => count + 1);
+            //console.log(count);
+          }
+        });
+      }
+    );
+  });
 
   const handleMessageSend = async (e) => {
     let obj = {};
