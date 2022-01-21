@@ -1,11 +1,21 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../App";
+import { db } from "../store/firebase.config";
 
 function MainPane({ showBlockButton, setShowMessageBox }) {
   const [loggedInUser, , , activeChat] = useContext(AppContext);
 
   const handleBlock = (activeChat) => {
-    alert(`Are you sure you wanna block  ${activeChat[0].name} ?`);
+    // alert(`Are you sure you wanna block  ${activeChat[0].name} ?`);
+    db.collection("users")
+      .doc(loggedInUser.uid)
+      .update({
+        blockedStatus: {
+          status: "blocked",
+          blockedID: activeChat[0].uid,
+        },
+      });
+    alert(`Blocked from  ${activeChat[0].name}`);
   };
   return (
     <>
@@ -32,11 +42,12 @@ function MainPane({ showBlockButton, setShowMessageBox }) {
             <div key={index} style={styles.incoming}>
               <div style={styles.incomingBubble}>{message.text}</div>
             </div>
-          ) : (
+          ) : message.sentFrom === loggedInUser.uid &&
+            message.sentTo === activeChat[0].uid ? (
             <div key={index} style={styles.outgoing}>
               <div style={styles.outgoingBubble}>{message.text}</div>
             </div>
-          )
+          ) : null
         )}
       </div>
     </>
@@ -73,7 +84,7 @@ const styles = {
     width: 100,
     height: 30,
     color: "white",
-    background: "linear-gradient(red,black)",
+    background: "linear-gradient(red,#dcf8c6)",
   },
   incomingBubble: {
     border: "0px solid #283747",

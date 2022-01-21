@@ -31,6 +31,10 @@ function LeftPane({ setShowMessageBox, setShowBlockButton }) {
         name: auth.currentUser.displayName,
         profilePic: auth.currentUser.photoURL,
         uid: loggedInUser.uid,
+        blockedStatus: {
+          blockedID: "",
+          status: "active",
+        },
       };
       const newID = loggedInUser.uid;
       db.collection("users").doc(newID).set(obj);
@@ -72,7 +76,8 @@ function LeftPane({ setShowMessageBox, setShowBlockButton }) {
       <div className="onlineUsers">{users.length} users online</div>
       <div className="users">
         {users.map((user, index) =>
-          user.uid !== loggedInUser.uid ? (
+          user.uid !== loggedInUser.uid &&
+          user.blockedStatus.blockedID !== loggedInUser.uid ? (
             <div
               id={user.uid}
               key={index}
