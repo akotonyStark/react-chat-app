@@ -1,27 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { db } from "../store/firebase.config";
-import { doc } from "firebase/firestore";
 import { AppContext } from "../App";
+import { doc } from "firebase/firestore";
 
 function BottomPane() {
   const [outgoingMessage, setOutgoingMessage] = useState("");
   const [loggedInUser, , , activeChat, setActiveChat] = useContext(AppContext);
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    db.collection("users").onSnapshot(
-      doc(db, "users", loggedInUser.uid),
-      (doc) => {
-        doc._delegate.docs.forEach((element) => {
-          if (element.id === loggedInUser.uid) {
-            setActiveChat(activeChat);
-            console.log("firestore updated");
-            //setCount((count) => count + 1);
-            //console.log(count);
-          }
-        });
-      }
-    );
-  });
 
   const handleMessageSend = async (e) => {
     let obj = {};
@@ -34,7 +18,6 @@ function BottomPane() {
       // console.log("I am:", loggedInUser.uid);
       data.docs.forEach((user) => {
         if (user.data().uid === activeChat[0].uid) {
-          // console.log("Active ID", activeChat[0].uid);
           canSend = true;
 
           obj = {
@@ -58,18 +41,35 @@ function BottomPane() {
               .update({
                 messages: [...activeChat[0].messages, obj],
               });
-
-            setOutgoingMessage("");
           }
 
           const updatedChat = [...activeChat[0].messages, obj];
           const [chat] = activeChat;
           chat.messages = updatedChat;
+          setOutgoingMessage("");
           setActiveChat([chat]);
         }
       });
     }
   };
+
+  const refresh = async () => {
+    const response = db.collection("users").orderBy("lastSeen");
+    const data = await response.get();
+    const thread = [];
+    data.docs.forEach((item) => {
+      if (item.data().uid === activeChat[0].uid) {
+        thread.push(item.data());
+      }
+    });
+
+    setActiveChat(thread);
+  };
+
+  React.useEffect(() => {
+    refresh();
+    //console.log(activeChat);
+  }, [activeChat]);
 
   return (
     <div>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../App";
 import { db } from "../store/firebase.config";
 
-function MainPane({ showBlockButton, setShowMessageBox }) {
+function MainPane({ showBlockButton }) {
   const [loggedInUser, , , activeChat, setActiveChat] = useContext(AppContext);
 
   const handleBlock = (activeChat) => {
@@ -17,6 +17,7 @@ function MainPane({ showBlockButton, setShowMessageBox }) {
       });
     alert(`Blocked from  ${activeChat[0].name}`);
   };
+
   return (
     <>
       <div style={styles.chatBuddy}>

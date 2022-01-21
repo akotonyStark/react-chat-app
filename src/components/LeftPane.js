@@ -80,7 +80,7 @@ function LeftPane({ setShowMessageBox, setShowBlockButton }) {
           </button>
         </div>
       </div>
-      <div className="onlineUsers">{users.length} users online</div>
+      {/* <div className="onlineUsers">{users.length} users online</div> */}
       <div className="users">
         {users.map((user, index) =>
           user.uid !== loggedInUser.uid &&

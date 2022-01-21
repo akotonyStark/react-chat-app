@@ -25,18 +25,18 @@ function App() {
     },
   ]);
 
-  const fetchData = async () => {
+  const fetchUsers = async () => {
     const response = db.collection("users").orderBy("lastSeen");
     const data = await response.get();
     data.docs.forEach((item) => {
-      //setMessages([...messages, item.data()])
       users.push(item.data());
+      //console.log("users", users);
       setUsers([...users]);
     });
   };
 
   React.useEffect(() => {
-    fetchData();
+    fetchUsers();
 
     return () => {
       //  / cleanup
