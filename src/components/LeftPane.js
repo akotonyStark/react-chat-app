@@ -32,7 +32,9 @@ function LeftPane({ setShowMessageBox, setShowBlockButton }) {
         profilePic: auth.currentUser.photoURL,
         uid: loggedInUser.uid,
       };
-      await response.add(obj);
+      const newID = loggedInUser.uid;
+      db.collection("users").doc(newID).set(obj);
+      //await response.add(obj);
       setUsers([...users, obj]);
     }
   };

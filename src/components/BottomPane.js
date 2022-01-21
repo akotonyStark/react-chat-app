@@ -17,6 +17,8 @@ function BottomPane() {
       const data = await response.get();
       //find user whose id is equal to the current chat
       let canSend = false;
+      console.log("Chatting with:", activeChat[0].uid);
+      console.log("I am:", loggedInUser.uid);
       data.docs.forEach((user) => {
         if (user.data().uid === activeChat[0].uid) {
           // console.log("Active ID", activeChat[0].uid);
@@ -29,17 +31,29 @@ function BottomPane() {
             createdAt: new Date().toDateString(),
           };
 
+          console.log("Message goes to", user.data().uid);
+          console.log("Message goes to", activeChat[0].uid);
           if (canSend) {
             setOutgoingMessage("");
 
             db.collection("users")
-              .doc(user.id)
+              .doc(user.data().uid)
               .update({
                 messages: [...activeChat[0].messages, obj],
               });
-          } else {
-            console.log("create new message thread");
+
+            db.collection("users")
+              .doc(loggedInUser.uid)
+              .update({
+                messages: [...activeChat[0].messages, obj],
+              });
+            //console.log([...activeChat[0].messages, obj]);
+            // const docs = db.collection("users").doc(user.data().uid);
+            // console.log(docs);
           }
+          //else {
+          //       console.log("create new message thread");
+          //     }
           const updatedChat = [...activeChat[0].messages, obj];
           const [chat] = activeChat;
           chat.messages = updatedChat;
