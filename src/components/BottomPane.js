@@ -1,76 +1,24 @@
 import React, { useState,  useContext } from "react";
 import { db , firebase} from "../store/firebase.config";
 import { AppContext } from "../App";
+import {useCollectionData} from "react-firebase-hooks/firestore"
+import {handleMessageSend, streamChatList} from '../helperFunctions'
 
 function BottomPane() {
   const [outgoingMessage, setOutgoingMessage] = useState("");
   const [loggedInUser, , , activeChat, setActiveChat] = useContext(AppContext);
 
-  const handleMessageSend = async (e) => {
-    let obj = {};
-    if (e.key === "Enter") {
-      const response = db.collection("users");
-      const data = await response.get();
-      //find user whose id is equal to the current chat
-      let canSend = false;
-      // console.log("Chatting with:", activeChat[0].uid);
-      // console.log("I am:", loggedInUser.uid);
-      data.docs.forEach((user) => {
-        if (user.data().uid === activeChat[0].uid) {
-          canSend = true;
-
-          obj = {
-            text: outgoingMessage,
-            sentTo: activeChat[0].uid,
-            sentFrom: loggedInUser.uid,
-            createdAt: new Date().toDateString(),
-          };
-
-          if (canSend) {
-            //update chat thread of recipient
-            db.collection("users")
-              .doc(user.data().uid)
-              .update({
-                messages: [...activeChat[0].messages, obj],
-              });
-
-            //update logged in user's chat thread
-            db.collection("users")
-              .doc(loggedInUser.uid)
-              .update({
-                messages: [...activeChat[0].messages, obj],
-              });
-          }
-
-          const updatedChat = [...activeChat[0].messages, obj];
-          const [chat] = activeChat;
-          chat.messages = updatedChat;
-          setOutgoingMessage("");
-          setActiveChat([chat]);
-        }
-      });
-    }
-  };
-
-
-  // React.useEffect(() => {
-  //   //refresh();
-  //    console.log(activeChat)
-  //   const unsubscribe = db.collection("users").onSnapshot(snapshot => {
-  //     if(snapshot.size){        
-       
-  //       setActiveChat(activeChat)
-  //     }
-  //     else{
-  //       //console.log("its empty")
-  //     }
-  //   })
-  //   return () => {
-  //     //cleanup
-  //     unsubscribe()
-  
-  //   }
-  // },[db, activeChat]);
+  React.useEffect(() => {  
+    const unsubscribe = streamChatList(loggedInUser.uid, {
+      next: querySnapshot => {
+        const updatedChatThread = querySnapshot.docs.map(docSnapshot => docSnapshot.data())
+        console.log(updatedChatThread)
+        setActiveChat(updatedChatThread)
+      },
+      error: () => console.log('error loadin chats')
+    });
+    return unsubscribe;
+  },[loggedInUser.uid, setActiveChat]);
 
   return (
     <div>
@@ -81,7 +29,7 @@ function BottomPane() {
           type="text"
           value={outgoingMessage}
           onChange={(e) => setOutgoingMessage(e.target.value)}
-          onKeyPress={(e) => handleMessageSend(e)}
+          onKeyPress={(e) => handleMessageSend(e, activeChat, loggedInUser, setActiveChat, outgoingMessage, setOutgoingMessage)}
           placeholder="Type your message..."
         />
       </form>

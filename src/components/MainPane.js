@@ -1,23 +1,11 @@
 import React, { useContext } from "react";
 import { AppContext } from "../App";
-import { db } from "../store/firebase.config";
+import {handleBlock} from "../helperFunctions"
 
 function MainPane({ showBlockButton }) {
   const [loggedInUser, , , activeChat] = useContext(AppContext);
 
-  const handleBlock = (activeChat) => {
-    // alert(`Are you sure you wanna block  ${activeChat[0].name} ?`);
-    db.collection("users")
-      .doc(loggedInUser.uid)
-      .update({
-        blockedStatus: {
-          status: "blocked",
-          blockedID: activeChat[0].uid,
-        },
-      });
-    alert(`Blocked from  ${activeChat[0].name}`);
-  };
-
+  
   return (
     <>
       <div style={styles.chatBuddy}>
@@ -29,7 +17,7 @@ function MainPane({ showBlockButton }) {
             <button
               className="auth"
               style={styles.blockButt}
-              onClick={() => handleBlock(activeChat)}
+              onClick={() => handleBlock(activeChat, loggedInUser)}
             >
               Block user
             </button>

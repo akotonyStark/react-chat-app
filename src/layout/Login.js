@@ -1,14 +1,11 @@
 import React from "react";
 import image from "../assets/jay.jpg";
 import google from "../assets/google.png";
-import firebase from "firebase/compat/app";
 import { auth } from "../store/firebase.config";
+import {handleGoogleSignIn} from '../helperFunctions'
 
 function Login() {
-  const handleGoogleSignIn = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-  };
+  
   return (
     <div style={styles.main}>
       <div style={styles.container}>

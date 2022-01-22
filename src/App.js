@@ -3,14 +3,16 @@ import "./App.css";
 import Login from "./layout/Login";
 import ChatApp from "./layout/ChatApp";
 import { useAuthState } from "react-firebase-hooks/auth";
+import {useCollectionData} from 'react-firebase-hooks/firestore';
 import { createContext } from "react";
 import { auth, db } from "./store/firebase.config";
+
 
 export const AppContext = createContext();
 
 function App() {
   const [loggedInUser] = useAuthState(auth);
-  //console.log(loggedInUser);
+  
   const [users, setUsers] = useState([]);
   const [activeChat, setActiveChat] = useState([
     {
@@ -25,6 +27,10 @@ function App() {
     },
   ]);
 
+  const messagesRef = db.collection(`users`)
+  const query  = messagesRef.orderBy("lastSeen");
+  const [messages] = useCollectionData(query, {loggedInUser: 'id'})
+
   const fetchUsers = async () => {
     const response = db.collection("users").orderBy("lastSeen");
     const data = await response.get();
@@ -37,7 +43,6 @@ function App() {
 
   React.useEffect(() => {
     fetchUsers();
-
     return () => {
       //  / cleanup
     };
