@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { db } from "../store/firebase.config";
+import React, { useState,  useContext } from "react";
+import { db , firebase} from "../store/firebase.config";
 import { AppContext } from "../App";
-import { doc } from "firebase/firestore";
 
 function BottomPane() {
   const [outgoingMessage, setOutgoingMessage] = useState("");
@@ -53,23 +52,25 @@ function BottomPane() {
     }
   };
 
-  const refresh = async () => {
-    const response = db.collection("users").orderBy("lastSeen");
-    const data = await response.get();
-    const thread = [];
-    data.docs.forEach((item) => {
-      if (item.data().uid === activeChat[0].uid) {
-        thread.push(item.data());
-      }
-    });
-
-    setActiveChat(thread);
-  };
 
   React.useEffect(() => {
-    refresh();
-    //console.log(activeChat);
-  }, [activeChat]);
+    //refresh();
+     console.log(activeChat)
+    const unsubscribe = db.collection("users").onSnapshot(snapshot => {
+      if(snapshot.size){        
+       
+        setActiveChat(activeChat)
+      }
+      else{
+        //console.log("its empty")
+      }
+    })
+    return () => {
+      //cleanup
+      unsubscribe()
+  
+    }
+  },[db, activeChat]);
 
   return (
     <div>

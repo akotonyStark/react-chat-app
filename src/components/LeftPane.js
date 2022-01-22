@@ -2,16 +2,11 @@ import React, { useContext, useEffect } from "react";
 import avatar from "../assets/chat_back.jpg";
 import { AppContext } from "../App";
 import { db, firebase, auth } from "../store/firebase.config";
+import { handleGoogleSignOut } from "../helperFunctions.js";
 
 function LeftPane({ setShowMessageBox, setShowBlockButton }) {
-  const [loggedInUser, users, setUsers, , setActiveChat] =
+  const [loggedInUser, users, setUsers, activeChat, setActiveChat] =
     useContext(AppContext);
-
-  const handleGoogleSignOut = () => {
-    if (auth.currentUser) {
-      auth.signOut();
-    }
-  };
 
   const createAccount = async (e) => {
     const response = db.collection("users");
@@ -63,6 +58,25 @@ function LeftPane({ setShowMessageBox, setShowBlockButton }) {
       //cleanup
     };
   }, []);
+
+    React.useEffect(() => {
+    //refresh();
+     console.log(activeChat)
+    const unsubscribe = db.collection("users").onSnapshot(snapshot => {
+      if(snapshot.size){        
+       
+        setActiveChat(activeChat)
+      }
+      else{
+        //console.log("its empty")
+      }
+    })
+    return () => {
+      //cleanup
+      unsubscribe()
+  
+    }
+  },[db, activeChat]);
 
   return (
     <>

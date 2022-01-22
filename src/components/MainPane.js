@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { AppContext } from "../App";
 import { db } from "../store/firebase.config";
 
 function MainPane({ showBlockButton }) {
-  const [loggedInUser, , , activeChat, setActiveChat] = useContext(AppContext);
+  const [loggedInUser, , , activeChat] = useContext(AppContext);
 
   const handleBlock = (activeChat) => {
     // alert(`Are you sure you wanna block  ${activeChat[0].name} ?`);
