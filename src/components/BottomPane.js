@@ -53,24 +53,24 @@ function BottomPane() {
   };
 
 
-  React.useEffect(() => {
-    //refresh();
-     console.log(activeChat)
-    const unsubscribe = db.collection("users").onSnapshot(snapshot => {
-      if(snapshot.size){        
+  // React.useEffect(() => {
+  //   //refresh();
+  //    console.log(activeChat)
+  //   const unsubscribe = db.collection("users").onSnapshot(snapshot => {
+  //     if(snapshot.size){        
        
-        setActiveChat(activeChat)
-      }
-      else{
-        //console.log("its empty")
-      }
-    })
-    return () => {
-      //cleanup
-      unsubscribe()
+  //       setActiveChat(activeChat)
+  //     }
+  //     else{
+  //       //console.log("its empty")
+  //     }
+  //   })
+  //   return () => {
+  //     //cleanup
+  //     unsubscribe()
   
-    }
-  },[db, activeChat]);
+  //   }
+  // },[db, activeChat]);
 
   return (
     <div>
