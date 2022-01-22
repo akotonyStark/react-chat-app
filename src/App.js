@@ -44,7 +44,7 @@ function App() {
   React.useEffect(() => {
     fetchUsers();
     return () => {
-      //  / cleanup
+      console.log('deploy build')
     };
   }, []);
 
