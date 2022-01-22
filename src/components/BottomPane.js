@@ -13,7 +13,8 @@ function BottomPane() {
       next: querySnapshot => {
         const updatedChatThread = querySnapshot.docs.map(docSnapshot => docSnapshot.data())
         const active = updatedChatThread.filter(item => item.uid === activeChat[0].uid)
-        console.log(active)
+        //console.log(active)
+        setActiveChat(active)
       },
       error: () => console.log('error loadin chats')
     });
