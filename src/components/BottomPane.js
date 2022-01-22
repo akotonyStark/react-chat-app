@@ -9,10 +9,10 @@ function BottomPane() {
   const [loggedInUser, , , activeChat, setActiveChat] = useContext(AppContext);
 
   React.useEffect(() => {  
-    const unsubscribe = streamChatList(loggedInUser.uid, {
+    const unsubscribe = streamChatList(activeChat[0].uid, {
       next: querySnapshot => {
         const updatedChatThread = querySnapshot.docs.map(docSnapshot => docSnapshot.data())
-        console.log(updatedChatThread)
+        //console.log(updatedChatThread)
         setActiveChat(updatedChatThread)
       },
       error: () => console.log('error loadin chats')
