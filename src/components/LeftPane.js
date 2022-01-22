@@ -62,7 +62,7 @@ function LeftPane({ setShowMessageBox, setShowBlockButton }) {
 
   return (
     <>
-      <div className="topBar" style={styles.topBar}>
+      <div className="topBar" style={styles.topBar} >
         <img src={loggedInUser.photoURL} style={styles.myProfile} alt="" />
         <div style={styles.username}>{loggedInUser.displayName}</div>
         <div style={styles.email}>{loggedInUser.email}</div>
@@ -74,6 +74,7 @@ function LeftPane({ setShowMessageBox, setShowBlockButton }) {
           >
             Sign out
           </button>
+          
         </div>
       </div>
       {/* <div className="onlineUsers">{users.length} users online</div> */}
@@ -87,6 +88,7 @@ function LeftPane({ setShowMessageBox, setShowBlockButton }) {
               style={styles.contactRow}
               className="contactRow"
               onClick={() => handleCurrentChat(user)}
+              title="Double click to chat with user"
             >
               <div>
                 {user.profilePic ? (

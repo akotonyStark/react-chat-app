@@ -31,7 +31,7 @@ function BottomPane() {
           value={outgoingMessage}
           onChange={(e) => setOutgoingMessage(e.target.value)}
           onKeyPress={(e) => handleMessageSend(e, activeChat, loggedInUser, setActiveChat, outgoingMessage, setOutgoingMessage)}
-          placeholder="Type your message..."
+          placeholder="Type your message and hit the enter button..."
         />
       </form>
     </div>

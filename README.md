@@ -3,6 +3,10 @@
 This is a chat app developed by Augustine Akoto Ampofo (alarbiampofo@gmail.com)
 Utilizes Google Authentication for account creation
 
+## Warning 
+
+If unable to login or view signed up users, check browser console for "Firebase storage quoto limit exceeded error"
+
 ## Features
 
 - users can chat with others on the app
@@ -31,3 +35,4 @@ This project has been deployed to heroku at
 https://augustine-chat-app.herokuapp.com
 
 Alternatively, you can also run `npm run build` to get a deployable build
+

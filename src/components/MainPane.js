@@ -26,11 +26,11 @@ function MainPane({ showBlockButton }) {
       </div>
       <div style={styles.chatPage}>
         {activeChat[0].messages.map((message, index) =>
-          message.sentTo === loggedInUser.uid && message.sentFrom  === activeChat[0].uid ? (
+          message.sentTo === loggedInUser.uid && activeChat[0].uid !== loggedInUser.uid && message.sentFrom  === activeChat[0].uid ? (
             <div key={index} style={styles.incoming}>
               <div style={styles.incomingBubble}>{message.text}</div>
             </div>
-          ) : message.sentTo === activeChat[0].uid && activeChat[0].uid !== loggedInUser.uid ? (
+          ) : message.sentTo === activeChat[0].uid && activeChat[0].uid !== loggedInUser.uid && message.sentFrom === loggedInUser.uid ? (
             <div key={index} style={styles.outgoing}>
               <div style={styles.outgoingBubble}>{message.text}</div>
             </div>
