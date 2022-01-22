@@ -1,7 +1,6 @@
 import React from "react";
 import image from "../assets/jay.jpg";
 import google from "../assets/google.png";
-import { auth } from "../store/firebase.config";
 import {handleGoogleSignIn} from '../helperFunctions'
 
 function Login() {
