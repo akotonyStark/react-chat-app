@@ -12,13 +12,13 @@ function BottomPane() {
     const unsubscribe = streamChatList(activeChat[0].uid, {
       next: querySnapshot => {
         const updatedChatThread = querySnapshot.docs.map(docSnapshot => docSnapshot.data())
-        //console.log(updatedChatThread)
-        setActiveChat(updatedChatThread)
+        const active = updatedChatThread.filter(item => item.uid === activeChat[0].uid)
+        console.log(active)
       },
       error: () => console.log('error loadin chats')
     });
     return unsubscribe;
-  },[loggedInUser.uid, setActiveChat]);
+  },[activeChat, setActiveChat]);
 
   return (
     <div>
